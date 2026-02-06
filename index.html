@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>NEO-BRUTALIST CANVAS</title>
+
+<link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+<canvas id="canvas" width="600" height="350"></canvas>
+
+<script>
+  const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+
+  let glitchOffset = 0;
+  let textColor = '#fff';
+  let glitchInterval = 0;
+  let scanlineInterval = 0;
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const textOffsetX = Math.random() * glitchOffset * 2 - glitchOffset;
+    const textOffsetY = Math.random() * glitchOffset * 2 - glitchOffset;
+
+    ctx.textAlign = "center";
+    
+    // Stark, bold heading
+    ctx.font = "bold 48px 'Courier New', Courier, monospace";
+    ctx.fillStyle = textColor; // Use dynamic text color
+    ctx.fillText("2026", canvas.width / 2 + textOffsetX, 170 + textOffsetY);
+
+    // Sub-text
+    ctx.font = "24px 'Courier New', Courier, monospace";
+    ctx.fillText("RAW. UNAFILTERED.", canvas.width / 2 - textOffsetX, 220 - textOffsetY);
+
+    // Scanlines
+    if (Math.random() < 0.3) { // 30% chance to draw scanlines
+      for (let i = 0; i < 5; i++) {
+        const y = Math.random() * canvas.height;
+        const height = Math.random() * 2;
+        ctx.fillStyle = `rgba(255, 255, 255, ${Math.random() * 0.2 + 0.1})`;
+        ctx.fillRect(0, y, canvas.width, height);
+      }
+    }
+  }
+
+  function animate() {
+    glitchInterval++;
+    scanlineInterval++;
+
+    // Randomly activate glitch effect
+    if (glitchInterval > 30 && Math.random() < 0.1) { // 10% chance every 30 frames
+      glitchOffset = 5; // Max 5px offset
+      textColor = ['#FF0000', '#00FF00', '#0000FF'][Math.floor(Math.random() * 3)]; // Random bright color
+      glitchInterval = 0;
+    } else if (glitchOffset > 0) {
+      glitchOffset--; // Reduce glitch over time
+      textColor = '#fff'; // Revert to white
+    }
+    
+    draw();
+    requestAnimationFrame(animate);
+  }
+
+  animate(); // Start the animation
+</script>
+
+</body>
+</html>
+

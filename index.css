@@ -1,0 +1,13 @@
+body {
+  margin: 0;
+  height: 100vh;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+canvas {
+  border: 5px solid #fff;
+}
